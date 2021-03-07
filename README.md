@@ -1,2 +1,2 @@
 # WAPJ
-WAPJ
+Wapj - Maven project Bookstore
