@@ -29,7 +29,13 @@ public class StoreDAO {
 	
 	public List<Store> getStoreWithRatingMoreThan(int rating){
 		TypedQuery<Store> tq = em.createNamedQuery("Store_ratingMoreThan", Store.class);
-		tq.setParameter("title", "Example title");
+		tq.setParameter("rating", "title");
+		return tq.getResultList();
+	}
+	
+	public List<Store> getStore_sortAlpAscending(){
+		TypedQuery<Store> tq = em.createNamedQuery("Store_sortAlpAscending", Store.class);
+		tq.setParameter("title");
 		return tq.getResultList();
 	}
 	

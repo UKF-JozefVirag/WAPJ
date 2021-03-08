@@ -28,6 +28,7 @@ public class MyMain {
 		
 		bookDAO.getBooksByTitle("Inferno");
 		storeDAO.getStoreWithRatingMoreThan(4);
+		storeDAO.getStore_sortAlpAscending();
 		
 		bookDAO.create(b);
 		storeDAO.create(s);
