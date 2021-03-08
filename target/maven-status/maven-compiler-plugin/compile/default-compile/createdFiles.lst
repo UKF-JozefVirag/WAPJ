@@ -1,3 +1,4 @@
+persistence\model\Store.class
 business\MyMain.class
 persistence\model\Book.class
 persistence\model\Autor.class

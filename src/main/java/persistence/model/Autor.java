@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "autor")
@@ -24,8 +25,20 @@ public class Autor implements Serializable {
 	@Column(name = "first_name")
 	private String firstName;
 	
+	@NotNull
+	@Column(name = "last_name", nullable = false)
+	private String lastName;
+	
 	@OneToMany(mappedBy = "autor")
 	private List<Book> books;
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
 	public Autor() {
 		super();

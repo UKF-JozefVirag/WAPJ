@@ -14,8 +14,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="store")
-@NamedQuery(name = "Store_ratingMoreThanFour", 
-		query = "SELECT s.name FROM Store s WHERE s.rating > 4")
+@NamedQuery(name = "Store_ratingMoreThan", 
+		query = "SELECT s.name FROM Store s WHERE s.rating > :rating")
 @NamedQuery(name = "Store_sortAlpAscending", 
 		query = "SELECT * FROM Store s ORDER BY s.name ASC")
 public class Store implements Serializable{
