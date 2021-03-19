@@ -4,7 +4,11 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import javax.inject.Inject;
+
+import business.qualifiers.Fake;
+import business.qualifiers.Real;
 import persistence.dao.BookDAO;
+import persistence.dao.IBookDao;
 import persistence.model.Book;
 import persistence.model.Store;
 import persistence.dao.StoreDAO;
@@ -14,24 +18,20 @@ import persistence.dao.StoreDAO;
 public class MyMain {
 	
 	@Inject
-	BookDAO bookDAO = new BookDAO();
+	@Fake
+	private IBookDao ibookDao;
 	
-	@Inject
-	StoreDAO storeDAO = new StoreDAO();
+	@Inject @Fake
+	private String sampleTitle;
 	
 	@PostConstruct
 	private void init() {
-		Book b = new Book();
-		Store s = new Store();
-		System.out.println("INIT");
-		b.setTitle("Example title");
+		Book b = new Book();	
+		b.setTitle(sampleTitle);
 		
-		bookDAO.getBooksByTitle("Inferno");
-		storeDAO.getStoreWithRatingMoreThan(4);
-		storeDAO.getStore_sortAlpAscending();
+		ibookDao.createBook(b);
+		System.out.println("Created  book with id " + b.getId() + " and title " + b.getTitle());
 		
-		bookDAO.create(b);
-		storeDAO.create(s);
 		
 	}
 

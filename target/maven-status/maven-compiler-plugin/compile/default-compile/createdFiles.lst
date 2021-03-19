@@ -1,4 +1,6 @@
 persistence\model\Store.class
+persistence\dao\StoreDAO.class
+persistence\dao\BookDAO.class
 business\MyMain.class
 persistence\model\Book.class
 persistence\model\Autor.class

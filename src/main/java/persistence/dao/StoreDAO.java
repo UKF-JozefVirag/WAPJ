@@ -9,7 +9,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import persistence.model.Book;
 import persistence.model.Store;
 
 @Stateless
@@ -35,7 +34,7 @@ public class StoreDAO {
 	
 	public List<Store> getStore_sortAlpAscending(){
 		TypedQuery<Store> tq = em.createNamedQuery("Store_sortAlpAscending", Store.class);
-		tq.setParameter("title");
+		tq.setParameter(0, "title");
 		return tq.getResultList();
 	}
 	

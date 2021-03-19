@@ -15,6 +15,10 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "book")
 @NamedQuery(name = "Book_findByTitle", query = "SELECT b FROM Book b WHERE b.title =:title")
+@NamedQuery(name = "DeleteBook", query = "DELETE b FROM Book b WHERE b.title =:title")
+@NamedQuery(name = "GetAllBooks", query = "SELECT * FROM Book")
+@NamedQuery(name = "GetRandomBook", query = "SELECT b FROM Book b ORDER BY RAND() LIMIT 1")
+@NamedQuery(name = "GetBookById", query = "SELECT b FROM Book WHERE id =:id")
 public class Book implements Serializable {
 
 	private static final long serialVersionUID = 5150060402411283137L;
