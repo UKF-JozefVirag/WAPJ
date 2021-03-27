@@ -6,6 +6,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Default;
 import javax.inject.Inject;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import business.qualifiers.Fake;
 import persistence.fakestuff.FakeDatabase;
@@ -17,6 +20,8 @@ public class FakeBookDAO implements IBookDao{
 
 	@Inject
 	private FakeDatabase fakeDatabase;
+	
+	private EntityManager em;
 	
 	@PostConstruct
 	private void init() {
@@ -30,8 +35,7 @@ public class FakeBookDAO implements IBookDao{
 
 	@Override
 	public Book editBook(Book book) {
-		// TODO Auto-generated method stub
-		return null;
+		return fakeDatabase.editBook(book);
 	}
 
 	@Override
@@ -42,23 +46,32 @@ public class FakeBookDAO implements IBookDao{
 
 	@Override
 	public List<Book> getAllBooks() {
-		return (List<Book>) fakeDatabase.getAllBooks();
+		TypedQuery<Book> tq = em.createNamedQuery("GetAllBooks", Book.class);
+		return tq.getResultList();
 	}
 
 	@Override
 	public Book getRandomBook() {
-		return fakeDatabase.getRandom();
+		Query query = (Query)em.createNamedQuery("Book_maxID", Book.class);
+		Object obj = query.getSingleResult();
+		int rand = (int) (Math.random()*((Integer)obj));
+		TypedQuery<Book> tq = em.createNamedQuery("Book_findById", Book.class);
+		tq.setParameter("id", rand);
+		return tq.getSingleResult();
 	}
 
 	@Override
-	public Book getBookByTitle(String title) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Book> getBooksByTitle(String title) {
+		TypedQuery<Book> tq = em.createNamedQuery("Book_findByTitle", Book.class);
+		tq.setParameter("title", title);
+		return tq.getResultList();
 	}
 
 	@Override
 	public Book getBookById(Integer id) {
-		return fakeDatabase.getBookById(id);
+		TypedQuery<Book> tq = em.createNamedQuery("Book_findById", Book.class);
+		tq.setParameter("id", id);
+		return tq.getSingleResult();
 	}
 
 }

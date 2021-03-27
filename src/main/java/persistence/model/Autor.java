@@ -8,12 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "autor")
+@NamedQuery(name = "Autor_findByName", query = "SELECT a FROM Autor a WHERE a.firstName =:first_name AND a.lastName =:last_name")
 public class Autor implements Serializable {
 
 	private static final long serialVersionUID = 1557478708874389190L;

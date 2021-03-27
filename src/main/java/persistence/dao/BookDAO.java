@@ -8,6 +8,7 @@ import javax.ejb.Stateless;
 import javax.enterprise.inject.Alternative;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import business.qualifiers.Real;
@@ -30,9 +31,10 @@ public class BookDAO implements IBookDao{
 		System.out.println("Destroying BookDAO");
 	}
 	
+	@Override
 	public List<Book> getBooksByTitle(String title){
 		TypedQuery<Book> tq = em.createNamedQuery("Book_findByTitle", Book.class);
-		tq.setParameter("title", "Example title");
+		tq.setParameter("title", title);
 		return tq.getResultList();
 	}
 	
@@ -50,36 +52,34 @@ public class BookDAO implements IBookDao{
 
 	@Override
 	public Book editBook(Book book) {
-		// TODO Auto-generated method stub
-		return null;
+		em.merge(book);
+		return book;
 	}
 
 	@Override
 	public void deleteBook(Book book) {
-		TypedQuery<Book> tq = em.createNamedQuery("DeleteBook", Book.class);
-		
+		em.remove(book);
 	}
 
 	@Override
 	public List<Book> getAllBooks() {
 		TypedQuery<Book> tq = em.createNamedQuery("GetAllBooks", Book.class);
-		return (List<Book>) tq;
+		return tq.getResultList();
 	}
 
 	@Override
 	public Book getRandomBook() {
-		TypedQuery<Book> tq = em.createNamedQuery("GetRandomBook", Book.class);
-		return (Book) tq;
-	}
-
-	@Override
-	public Book getBookByTitle(String title) {
-		return getBookByTitle(title);
+		Query query = (Query)em.createNamedQuery("Book_maxID", Book.class);
+		Object obj = query.getSingleResult();
+		int rdm = (int) (Math.random()*((Integer)obj));
+		TypedQuery<Book> tq = em.createNamedQuery("Book_findById", Book.class);
+		tq.setParameter("id", rdm);
+		return tq.getSingleResult();
 	}
 
 	@Override
 	public Book getBookById(Integer id) {
-		TypedQuery<Book> tq = em.createNamedQuery("GetBookById", Book.class);
+		TypedQuery<Book> tq = em.createNamedQuery("Book_findById", Book.class);
 		return (Book) tq;
 	}
 }

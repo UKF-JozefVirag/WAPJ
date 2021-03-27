@@ -2,18 +2,19 @@ package persistence.fakestuff;
 
 import java.util.HashMap;
 
+import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import persistence.model.Book;
 
 @Singleton
 public class FakeDatabase {
-	private Integer lastId;
+	private Integer lastId = -1;
 	
-	private HashMap<Integer, Book> bookTable;
+	private HashMap<Integer, Book> bookTable = new HashMap<Integer, Book>();
 	
+	@PostConstruct
 	private void init() {
 		this.lastId = 0;
-		this.bookTable = new HashMap<Integer, Book>();
 	}
 	
 	public Book insertBook(Book book) {
@@ -24,7 +25,12 @@ public class FakeDatabase {
 	}
 	
 	public void remove(Book book) {
-		bookTable.remove(book);
+		bookTable.remove(book.getId(), book);
+	}
+	
+	public Book editBook(Book book) {
+		this.bookTable.put(book.getId(), book);
+		return book;
 	}
 	
 	public HashMap<Integer, Book> getAllBooks() {
@@ -32,11 +38,13 @@ public class FakeDatabase {
 	}
 	
 	public Book getRandom() {
-		return bookTable.get((int)Math.random()*bookTable.size());
+		int size = bookTable.size();
+		int rand = (int) (Math.random() * size);
+		return this.bookTable.get(rand);
 	}
 	
 	public Book getBookById(Integer id) {
-		return bookTable.get(id);
+		return this.bookTable.get(id);
 	}
 	
 }

@@ -16,8 +16,8 @@ public interface IBookDao {
 	
 	public Book getRandomBook();
 	
-	public Book getBookByTitle(String title);
-	
 	public Book getBookById(Integer id);
+
+	public List<Book> getBooksByTitle(String title);
 	
 }
