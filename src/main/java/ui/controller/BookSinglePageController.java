@@ -1,12 +1,15 @@
 package ui.controller;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import business.BookService;
+import business.dto.TOBook;
 import business.qualifiers.Real;
 import persistence.dao.AutorDAO;
 import persistence.dao.IBookDao;
@@ -26,6 +29,8 @@ public class BookSinglePageController implements Serializable {
 	private String inputStore;
 
 	
+	private List<TOBook> booksList;
+	
 	@Inject @Real
 	private IBookDao ibookdao;
 	
@@ -35,8 +40,14 @@ public class BookSinglePageController implements Serializable {
 	@Inject
 	private AutorDAO autordao;
 	
+	@Inject
+	private BookService bookservice;
+	
 	@PostConstruct
-	private void init() {}	
+	private void init() {
+		this.inputTitle="Example title";
+		this.booksList= this.ibookdao.getAllTOBooks();
+	}	
 	
 	public String getInputTitle() {
 		return inputTitle;
@@ -53,7 +64,7 @@ public class BookSinglePageController implements Serializable {
 		autordao.create(autor);
 		
 		Store store = new Store();
-		store.setWebUrl(inputAutorFName);
+		store.setWebUrl(this.inputStore);
 		storedao.create(store);
 		
 		Book book = new Book();
@@ -67,7 +78,20 @@ public class BookSinglePageController implements Serializable {
 		System.out.println("Adding book with title: " +this.inputTitle);
 	}
 	
-	
+	public void editBook(TOBook tobook) {
+        tobook.setEditingMode(true);
+        System.out.println("Edit mode on");
+        System.out.println(tobook.getId());
+        System.out.println(tobook.getTitle());
+    }
+
+    public void saveBook(TOBook tobook) {
+        tobook.setEditingMode(false);
+        System.out.println("Edit mode off");
+        bookservice.editBook(tobook);
+        
+       
+    }
 	
 	public String getInputAutorFName() {
 		return inputAutorFName;
@@ -91,5 +115,13 @@ public class BookSinglePageController implements Serializable {
 
 	public void setInputStore(String inputStore) {
 		this.inputStore = inputStore;
+	}
+
+	public List<TOBook> getBooksList() {
+		return booksList;
+	}
+
+	public void setBooksList(List<TOBook> booksList) {
+		this.booksList = booksList;
 	}
 }

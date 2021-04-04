@@ -1,40 +1,87 @@
-<?xml version="1.0" encoding="ISO-8859-1" ?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-xmlns:f="http://xmlns.jcp.org/jsf/core"
-xmlns:h="http://xmlns.jcp.org/jsf/html">
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html">
 <h:head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
-<title>Insert title here</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+	<title>Insert title here</title>
 </h:head>
 <h:body style="background-color: #baeaff;">
-	
-	<h:form style="color: white; border: 1px solid black; text-align: center; width: 500px; font-size: 2rem; position: fixed; top:50%; left: 50%; transform:translate(-50%, -50%); background-color:#0093E9;background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);">
+
+	<h:form
+		style="color: white; border: 1px solid black; text-align: center; width: 500px; font-size: 2rem; position: fixed; top:50%; left: 50%; transform:translate(-50%, -50%); background-color:#0093E9;background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);">
 		<h:outputLabel>Name of the book: </h:outputLabel>
-		<br/>
+		<br />
 		<h:inputText value="#{bookSinglePageController.inputTitle}"></h:inputText>
-		<br/><br/>
-		
+		<br />
+		<br />
+
 		<h:outputLabel>Autor of the book: </h:outputLabel>
-		<br/>
+		<br />
 		<h:outputLabel>First name: </h:outputLabel>
-		<h:inputText value="#{bookSinglePageController.inputAutorFName}" data-placeholder="First Name"></h:inputText>
-		<br/>
+		<h:inputText value="#{bookSinglePageController.inputAutorFName}"
+			data-placeholder="First Name"></h:inputText>
+		<br />
 		<h:outputLabel>Last name:  </h:outputLabel>
-		<h:inputText value="#{bookSinglePageController.inputAutorLName}" data-placeholder="Last Name"></h:inputText>
-		<br/><br/>
+		<h:inputText value="#{bookSinglePageController.inputAutorLName}"
+			data-placeholder="Last Name"></h:inputText>
+		<br />
+		<br />
 
 		<h:outputLabel>Web page of store: </h:outputLabel>
-		<br/>
-		<h:inputText value="#{bookSinglePageController.inputStore}" style="width: 200px"></h:inputText>
-		<br/><br/>
-		
-		<h:commandButton value="ADD" style="font-size:2rem; background-color: grey; border: none; color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 18px;cursor: pointer; margin-bottom: 12px">
-			<f:ajax listener="#{bookSinglePageController.addBook}" execute="@form" render="@form"></f:ajax>
+		<br />
+		<h:inputText value="#{bookSinglePageController.inputStore}"
+			style="width: 200px"></h:inputText>
+		<br />
+		<br />
+
+		<h:commandButton value="ADD"
+			style="font-size:2rem; background-color: grey; border: none; color: white;padding: 15px 32px;text-align: center;text-decoration: none;display: inline-block;font-size: 18px;cursor: pointer; margin-bottom: 12px">
+			<f:ajax listener="#{bookSinglePageController.addBook()}"
+				execute="@form" render="@form"></f:ajax>
 		</h:commandButton>
-		<br/>
-	</h:form>
 	
+	<br />
+
+	<!-- <h:dataTable value="#{bookSinglePageController.booksList}" var="book">
+			<h:column>
+				<f:facet name="header">Title</f:facet>
+				#{book.title}
+			</h:column>
+			<h:column>
+				<f:facet name="header">Autor</f:facet>
+				#{book.autor != null ? book.autor.lastName : "-"}
+			</h:column>
+		</h:dataTable>
+	
+	-->
+	<h:dataTable id="dtBooks" value="#{bookSinglePageController.booksList}"
+		var="book">
+		<h:column>
+			<f:facet name="header">Title</f:facet>
+			<!-- facet -> do header chceme vlozit hodnotu -->
+			<h:inputText value="#{book.title}" rendered="#{book.editingMode}"></h:inputText>
+			<h:outputText value="#{book.title}" rendered="#{!book.editingMode}"></h:outputText>
+		</h:column>
+		<h:column>
+			<f:facet name="header">Autor</f:facet>
+			<h:inputText value="#{book.autorFullName}" disabled="true"></h:inputText>
+		</h:column>
+		<h:column>
+			<f:facet name="header">Edit</f:facet>
+			<h:inputHidden id="bookId" value="#{book.id}" rendered="#{book.editingMode}" />
+			<h:commandButton value="Edit" execute="#{book.id}" rendered="#{!book.editingMode}">
+				<f:ajax listener="#{bookSinglePageController.editBook(book)}"
+					render="@form"></f:ajax>
+			</h:commandButton>
+			<h:commandButton value="Save" rendered="#{book.editingMode}">
+				<f:ajax listener="#{bookSinglePageController.saveBook(book)}"
+					render="@form"></f:ajax>
+			</h:commandButton>
+		</h:column>
+	</h:dataTable>
+</h:form>
 </h:body>
 </html>

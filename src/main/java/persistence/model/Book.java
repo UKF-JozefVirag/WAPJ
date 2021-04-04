@@ -9,15 +9,21 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name = "book")
-@NamedQuery(name = "Book_findByTitle", query = "SELECT b FROM Book b WHERE b.title =:title")
-@NamedQuery(name = "GetAllBooks", query = "SELECT b FROM Book b")
-@NamedQuery(name = "Book_maxID", query = "SELECT MAX(b.id) AS maxId FROM Book b")
-@NamedQuery(name = "Book_findById", query = "SELECT b FROM Book b WHERE b.id =:id")
+@NamedQueries({
+	@NamedQuery(name = "Book_findByTitle", query = "SELECT b FROM Book b WHERE b.title =:title"),
+	@NamedQuery(name = "GetAllBooks", query = "SELECT b FROM Book b"),
+	@NamedQuery(name = "Book_maxID", query = "SELECT MAX(b.id) AS maxId FROM Book b"),
+	@NamedQuery(name = "Book_findById", query = "SELECT b FROM Book b WHERE b.id =:id"),
+	@NamedQuery(name = "Book_selectNew", query = "SELECT NEW business.dto.TOBook(b) FROM Book b")
+})
+
 public class Book implements Serializable {
 
 	private static final long serialVersionUID = 5150060402411283137L;
@@ -29,6 +35,14 @@ public class Book implements Serializable {
 	@Column(name = "title")
 	private String title;
 	
+	@Transient
+	private int age;
+	
+	@Transient
+	private String autorFullName;
+	
+	
+
 	@ManyToOne
 	@JoinColumn(name = "fk_autor")
 	private Autor autor;
@@ -39,7 +53,7 @@ public class Book implements Serializable {
 
 	public Book() {
 		super();
-		// TODO Auto-generated constructor stub
+		this.autorFullName = autor == null ? "-" : autor.getFirstName() + " " + autor.getLastName();
 	}
 
 	public Integer getId() {
@@ -74,4 +88,15 @@ public class Book implements Serializable {
 		this.store = store;
 	}
 
+	public String getAutorFullName() {
+		if(this.autor == null) return "-";
+		return this.autor.getFirstName() + " " + this.autor.getLastName();
+	}
+
+	public void setAutorFullName(String autorFullName) {
+		this.autorFullName = autorFullName;
+	}
+	
+	
+	
 }

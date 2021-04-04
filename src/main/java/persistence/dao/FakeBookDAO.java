@@ -4,12 +4,12 @@ import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
-import javax.enterprise.inject.Default;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
+import business.dto.TOBook;
 import business.qualifiers.Fake;
 import persistence.fakestuff.FakeDatabase;
 import persistence.model.Book;
@@ -69,9 +69,17 @@ public class FakeBookDAO implements IBookDao{
 
 	@Override
 	public Book getBookById(Integer id) {
-		TypedQuery<Book> tq = em.createNamedQuery("Book_findById", Book.class);
+		/*TypedQuery<Book> tq = em.createNamedQuery("Book_findById", Book.class);
 		tq.setParameter("id", id);
 		return tq.getSingleResult();
+		*/
+		return em.find(Book.class, id);
+	}
+
+	@Override
+	public List<TOBook> getAllTOBooks() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

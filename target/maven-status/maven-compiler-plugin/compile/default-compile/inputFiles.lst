@@ -1,6 +1,16 @@
+C:\Users\Jozef\Desktop\second\src\main\java\persistence\dao\BookDAO.java
+C:\Users\Jozef\Desktop\second\src\main\java\business\qualifiers\Fake.java
+C:\Users\Jozef\Desktop\second\src\main\java\persistence\dao\IBookDao.java
+C:\Users\Jozef\Desktop\second\src\main\java\persistence\dao\AutorDAO.java
+C:\Users\Jozef\Desktop\second\src\main\java\persistence\fakestuff\FakeDatabase.java
+C:\Users\Jozef\Desktop\second\src\main\java\business\qualifiers\Real.java
+C:\Users\Jozef\Desktop\second\src\main\java\business\dto\TOBook.java
+C:\Users\Jozef\Desktop\second\src\main\java\ui\controller\BookSinglePageController.java
+C:\Users\Jozef\Desktop\second\src\main\java\persistence\dao\FakeBookDAO.java
 C:\Users\Jozef\Desktop\second\src\main\java\persistence\model\Book.java
 C:\Users\Jozef\Desktop\second\src\main\java\business\MyMain.java
 C:\Users\Jozef\Desktop\second\src\main\java\persistence\model\Store.java
-C:\Users\Jozef\Desktop\second\src\main\java\persistence\dao\BookDAO.java
+C:\Users\Jozef\Desktop\second\src\main\java\ui\session\BookSession.java
 C:\Users\Jozef\Desktop\second\src\main\java\persistence\model\Autor.java
+C:\Users\Jozef\Desktop\second\src\main\java\business\generators\samples\title\SampleBookTitleProducer.java
 C:\Users\Jozef\Desktop\second\src\main\java\persistence\dao\StoreDAO.java
