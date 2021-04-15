@@ -53,8 +53,7 @@ public class BookDAO implements IBookDao{
 
 	@Override
 	public Book editBook(Book book) {
-		em.merge(book);
-		return book;
+		return em.merge(book);
 	}
 
 	@Override

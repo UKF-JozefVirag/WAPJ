@@ -23,6 +23,17 @@ public class BookService {
         System.out.println("this:" + tobook.getTitle());
         book.setTitle(tobook.getTitle());
         System.out.println("second:" + tobook.toString());
-        return tobook;
+        return new TOBook (bookDao.editBook(book));
+    }
+    
+    public void deleteBook(TOBook tobook) throws Exception {
+        Book book = bookDao.getBookById(tobook.getId());
+        if(book == null) {
+            //TODO: throw exception, show message
+            throw new Exception("Deleting book failed: not found id = " + tobook.getId());
+        }
+        
+        bookDao.deleteBook(book);
+        
     }
 }

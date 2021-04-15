@@ -1,17 +1,23 @@
 package ui.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 
 import business.BookService;
 import business.dto.TOBook;
 import business.qualifiers.Real;
 import persistence.dao.AutorDAO;
+import persistence.dao.BookDAO;
 import persistence.dao.IBookDao;
 import persistence.dao.StoreDAO;
 import persistence.model.Autor;
@@ -23,7 +29,6 @@ import persistence.model.Store;
 public class BookSinglePageController implements Serializable {
 	
 	private static final long serialVersionUID = 7491691984849149L;
-	private String inputTitle;
 	private String inputAutorFName;
 	private String inputAutorLName;
 	private String inputStore;
@@ -45,19 +50,16 @@ public class BookSinglePageController implements Serializable {
 	
 	@PostConstruct
 	private void init() {
-		this.inputTitle="Example title";
 		this.booksList= this.ibookdao.getAllTOBooks();
 	}	
 	
-	public String getInputTitle() {
-		return inputTitle;
-	}
-
-	public void setInputTitle(String inputTitle) {
-		this.inputTitle = inputTitle;
+	public void loadList() {
+		this.ibookdao.getAllTOBooks();
 	}
 	
-	public void addBook() {
+	
+	/*
+	 	public void addBook() {
 		Autor autor = new Autor();
 		autor.setFirstName(this.inputAutorFName);
 		autor.setLastName(this.inputAutorLName);
@@ -68,17 +70,15 @@ public class BookSinglePageController implements Serializable {
 		storedao.create(store);
 		
 		Book book = new Book();
-		book.setTitle(this.inputTitle);
 		book.setAutor(autor);
 		book.setStore(store);
 		ibookdao.createBook(book);
 		
 		System.out.println("Adding autor with name: " + this.inputAutorFName + " " + this.inputAutorLName);
 		System.out.println("Adding store webpage: " + this.inputStore);
-		System.out.println("Adding book with title: " +this.inputTitle);
 	}
-	
-	public void editBook(TOBook tobook) {
+	*/
+	public void editBook(TOBook tobook) {		
         tobook.setEditingMode(true);
         System.out.println("Edit mode on");
         System.out.println(tobook.getId());
@@ -86,11 +86,33 @@ public class BookSinglePageController implements Serializable {
     }
 
     public void saveBook(TOBook tobook) {
+    	bookservice.editBook(tobook);
         tobook.setEditingMode(false);
         System.out.println("Edit mode off");
         bookservice.editBook(tobook);
-        
-       
+    }
+    
+    public void delete(TOBook tobook) {
+    	try {
+    		bookservice.deleteBook(tobook);
+    		refresh();
+    		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Deleted book", "success"));
+    	} catch (Exception e) {
+    		//FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Deleted book", e.getMessage()));
+    	}
+    }
+    
+    public String newBook() {
+    	return "newBook.xhtml?faces-redirect=true";
+    }
+    
+    public String newShop() {
+    	return "newShop.xhtml?faces-redirect=true";
+    }
+    
+    public void refresh() throws IOException {
+    	ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+        ec.redirect(((HttpServletRequest) ec.getRequest()).getRequestURI());
     }
 	
 	public String getInputAutorFName() {

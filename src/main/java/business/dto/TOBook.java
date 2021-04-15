@@ -1,17 +1,20 @@
 package business.dto;
 
 import persistence.model.Book;
+import persistence.model.Store;
 
 public class TOBook {
 	
 	private Integer id;
 	private String title;
 	private String autorFullName;
+	private String store;
 	private boolean editingMode;
 	
 	public TOBook(Book book) {
 		this.id = book.getId(); 
 		this.title = book.getTitle();
+		this.store = book.getStore() == null ? "-" : book.getStore().getWebUrl() + "";
 		this.editingMode = false;
 		this.autorFullName = book.getAutor() == null ? "-" : book.getAutor().getFirstName() + " " + book.getAutor().getLastName();
 	}
@@ -42,6 +45,14 @@ public class TOBook {
 
 	public void setEditingMode(boolean editingMode) {
 		this.editingMode = editingMode;
+	}
+
+	public String getStore() {
+		return store;
+	}
+
+	public void setStore(String store) {
+		this.store = store;
 	}
 
 	
