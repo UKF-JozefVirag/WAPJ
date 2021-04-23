@@ -13,6 +13,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table(name = "book")
@@ -33,6 +35,8 @@ public class Book implements Serializable {
 	private Integer id;
 	
 	@Column(name = "title")
+	@NotNull
+	@Size(max = 15)
 	private String title;
 	
 	@Transient

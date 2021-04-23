@@ -3,6 +3,8 @@ package ui.controller;
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -23,6 +25,7 @@ public class NewBookController implements Serializable {
 
 	private static final long serialVersionUID = -4382653688500109282L;
 
+	
 	private String inputTitle;
 	private String inputAutorFName;
 	private String inputAutorLName;
@@ -48,6 +51,12 @@ public class NewBookController implements Serializable {
 	}
 	
 	public void addBook() {
+		/*
+		if(inputTitle.length()==0) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You must type some title"));
+			return;
+		}
+		*/
 		Autor autor = new Autor();
 		autor.setFirstName(this.inputAutorFName);
 		autor.setLastName(this.inputAutorLName);

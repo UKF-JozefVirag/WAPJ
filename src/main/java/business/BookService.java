@@ -34,6 +34,14 @@ public class BookService {
         }
         
         bookDao.deleteBook(book);
-        
+        }
+    
+    public TOBook addBook(TOBook toBook) {
+    	Book book = new Book();
+    	book.setTitle(toBook.getTitle());
+    	return new TOBook(bookDao.createBook(book));
+    	
+    	
     }
+    
 }

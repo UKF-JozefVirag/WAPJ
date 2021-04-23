@@ -7,66 +7,73 @@
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
 	<title>Insert title here</title>
+	<h:outputScript library="static" name="js/jquery.min.js"></h:outputScript>
+	<h:outputStylesheet library="static" name="css/bootstrap.min.css"></h:outputStylesheet>
+	<h:outputStylesheet library="static" name="css/mystyle.css"></h:outputStylesheet>
+	<h:outputScript library="static" name="js/bootstrap.min.js"></h:outputScript>
 </h:head>
-<h:body style="background-color: #baeaff;">
+<h:body>
 
-	
+	<div class="container">
+		<h:form id="form" class="form-horizontal">
 
-	<h:form
-		style="color: white; border: 1px solid black; text-align: center; width: 500px; font-size: 2rem; position: fixed; top:50%; left: 50%; transform:translate(-50%, -50%); background-color:#0093E9;background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);">
-	
-		
-	<h:commandButton value="Add new Book" action="#{bookSinglePageController.newBook}" />
-	<br />
+			<br />
 
-	<!-- <h:dataTable value="#{bookSinglePageController.booksList}" var="book">
-			<h:column>
-				<f:facet name="header">Title</f:facet>
-				#{book.title}
-			</h:column>
-			<h:column>
-				<f:facet name="header">Autor</f:facet>
-				#{book.autor != null ? book.autor.lastName : "-"}
-			</h:column>
-		</h:dataTable>
-	
-	-->
-	<h:messages showDetail="true"></h:messages>
-	<h:dataTable id="dtBooks" value="#{bookSinglePageController.booksList}"
-		var="book">
-		<h:column>
-			<f:facet name="header">Title</f:facet>
-			<!-- facet -> do header chceme vlozit hodnotu -->
-			<h:inputText value="#{book.title}" rendered="#{book.editingMode}"></h:inputText>
-			<h:outputText value="#{book.title}" rendered="#{!book.editingMode}"></h:outputText>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Autor</f:facet>
-			<h:inputText value="#{book.autorFullName}" disabled="true"></h:inputText>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Shop</f:facet>
-			<h:inputText value="#{book.store}" disabled="true" />
-		</h:column>
-		<h:column>
-			<f:facet name="header">Edit</f:facet>
-			<h:inputHidden id="bookId" value="#{book.id}" rendered="#{book.editingMode}" />
-			<h:commandButton value="Edit" execute="#{book.id}" rendered="#{!book.editingMode}">
-				<f:ajax listener="#{bookSinglePageController.editBook(book)}"
-					render="@form"></f:ajax>
-			</h:commandButton>
-			<h:commandButton value="Save" rendered="#{book.editingMode}">
-				<f:ajax listener="#{bookSinglePageController.saveBook(book)}"
-					render="@form"></f:ajax>
-			</h:commandButton>
-		</h:column>
-		<h:column>
-			<f:facet name="header">Delete</f:facet>
-			<h:commandButton value="Delete" actionListener="#{bookSinglePageController.delete(book)}">
-				<f:ajax listener="#{bookSinglePageController.delete(book)}" render="@form dtBook"></f:ajax> 
-			</h:commandButton>
-		</h:column>
-	</h:dataTable>
-</h:form>
+			<h:messages showDetail="true"></h:messages>
+			<h:dataTable id="dtBooks"
+				value="#{bookSinglePageController.booksList}" var="book"
+				class="table table-striped table-responsive-md text-center">
+				<h:column>
+					<f:facet name="header">#{lang["book.title"]}</f:facet>
+					<!-- facet -> do header chceme vlozit hodnotu -->
+					<h:inputText value="#{book.title}" rendered="#{book.editingMode}"></h:inputText>
+					<h:outputText value="#{book.title}" rendered="#{!book.editingMode}"></h:outputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{lang["book.autor"]}</f:facet>
+					<h:inputText value="#{book.autorFullName}" disabled="true"></h:inputText>
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{lang["book.shop"]}</f:facet>
+					<h:inputText value="#{book.store}" disabled="true" />
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{lang["book.edit"]}</f:facet>
+					<h:inputHidden id="bookId" value="#{book.id}"
+						rendered="#{book.editingMode}" />
+					<h:commandButton value="#{lang['book.edit']}" execute="#{book.id}"
+						rendered="#{!book.editingMode}" class="btn btn-primary">
+						<f:ajax listener="#{bookSinglePageController.editBook(book)}"
+							render="@form"></f:ajax>
+					</h:commandButton>
+					<h:commandButton value="Save" rendered="#{book.editingMode}">
+						<f:ajax listener="#{bookSinglePageController.saveBook(book)}"
+							execute="@form" render="@form"></f:ajax>
+					</h:commandButton>
+				</h:column>
+				<h:column>
+					<f:facet name="header">#{lang["book.delete"]}</f:facet>
+					<h:commandButton value="#{lang['book.delete']}"
+						actionListener="#{bookSinglePageController.delete(book)}"
+						class="btn btn-danger">
+						<f:ajax listener="#{bookSinglePageController.delete(book)}"
+							render="@form dtBook"></f:ajax>
+					</h:commandButton>
+				</h:column>
+			</h:dataTable>
+			<h:commandButton value="#{lang['book.addBook']}"
+				action="#{bookSinglePageController.newBook}" class="btn btn-success"></h:commandButton>
+		</h:form>
+	</div>
+	<div class="fixed-bottom text-right">
+		<div class=" m-3">
+			<h:form class="ml-auto">
+				<h:commandButton action="#{language.changeLanguage('')}"
+					value="English" class="btn" image="/resources/static/img/uk.png" style="width:100px"></h:commandButton>
+				<h:commandButton action="#{language.changeLanguage('sk')}"
+					value="Slovak" class="btn" image="/resources/static/img/slovak.png" style="width:100px"></h:commandButton>
+			</h:form>
+		</div>
+	</div>
 </h:body>
 </html>
